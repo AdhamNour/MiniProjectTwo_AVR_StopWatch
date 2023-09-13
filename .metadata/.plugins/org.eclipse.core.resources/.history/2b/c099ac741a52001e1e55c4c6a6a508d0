@@ -1,0 +1,14 @@
+/*
+ * MiniProject2.c
+ *
+ *  Created on: Sep 13, 2023
+ *      Author: adham
+ */
+
+#include <avr/io.h>
+
+int main(void){
+	DDRA|=0x2F;
+	PORTA&=~(0x2F);
+
+}

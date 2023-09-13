@@ -1,0 +1,45 @@
+/*
+ * MiniProject2.c
+ *
+ *  Created on: Sep 13, 2023
+ *      Author: adham
+ */
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+unsigned char currentDigit =0;
+
+
+ISR(TIMER2_COMP_vect){
+	PORTA =(PORTA&0xC0)|(1<<currentDigit);
+	currentDigit++;
+	if(currentDigit>5) currentDigit=0;
+}
+
+ISR(TIMER2_COMP_vect){
+	PORTB^=(1<<PB0);
+}
+int main(void){
+	//Init the Output ports
+	DDRA|=0x3F;
+	PORTA&=~(0x3F);
+	DDRC |= 0x0F;
+	PORTC &=~(0x0F);
+	DDRB|=(1<<PB0);
+	PORTB&=~(1<<PB0);
+	// init the timer2
+	TCCR2 = (1 << FOC2) | (1 << WGM21) | (1 << CS21);
+	TCNT2 = 0;
+	TIMSK |= (1 << OCIE2);
+	OCR2 = 250;
+	SREG |= 1 << 7;
+	// init timer1
+	TCCR1A=(1<<FOC1A)|(1<<FOC1B);
+	TCCR1B|=(1<<WGM12)|(1<<CS11);
+	OCR1A = 500;
+	TIMSK |= (1<<OCIE1A);
+	TCNT1=0;
+	while(1);
+
+}

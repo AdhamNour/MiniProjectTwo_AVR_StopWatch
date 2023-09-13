@@ -1,0 +1,320 @@
+
+MiniPorject2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000228  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000001  00800060  00800060  0000029c  2**0
+                  ALLOC
+  2 .stab         00000444  00000000  00000000  0000029c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      000006c7  00000000  00000000  000006e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__vector_4>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 80 00 	jmp	0x100	; 0x100 <__vector_7>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a1 36       	cpi	r26, 0x61	; 97
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 a4 00 	call	0x148	; 0x148 <main>
+  74:	0c 94 12 01 	jmp	0x224	; 0x224 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <__vector_4>:
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+unsigned char currentDigit = 0;
+
+ISR(TIMER2_COMP_vect) {
+  7c:	1f 92       	push	r1
+  7e:	0f 92       	push	r0
+  80:	0f b6       	in	r0, 0x3f	; 63
+  82:	0f 92       	push	r0
+  84:	11 24       	eor	r1, r1
+  86:	2f 93       	push	r18
+  88:	3f 93       	push	r19
+  8a:	4f 93       	push	r20
+  8c:	8f 93       	push	r24
+  8e:	9f 93       	push	r25
+  90:	af 93       	push	r26
+  92:	bf 93       	push	r27
+  94:	ef 93       	push	r30
+  96:	ff 93       	push	r31
+  98:	df 93       	push	r29
+  9a:	cf 93       	push	r28
+  9c:	cd b7       	in	r28, 0x3d	; 61
+  9e:	de b7       	in	r29, 0x3e	; 62
+	PORTA = (PORTA & 0xC0) | (1 << currentDigit);
+  a0:	ab e3       	ldi	r26, 0x3B	; 59
+  a2:	b0 e0       	ldi	r27, 0x00	; 0
+  a4:	eb e3       	ldi	r30, 0x3B	; 59
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	80 81       	ld	r24, Z
+  aa:	48 2f       	mov	r20, r24
+  ac:	40 7c       	andi	r20, 0xC0	; 192
+  ae:	80 91 60 00 	lds	r24, 0x0060
+  b2:	28 2f       	mov	r18, r24
+  b4:	30 e0       	ldi	r19, 0x00	; 0
+  b6:	81 e0       	ldi	r24, 0x01	; 1
+  b8:	90 e0       	ldi	r25, 0x00	; 0
+  ba:	02 2e       	mov	r0, r18
+  bc:	02 c0       	rjmp	.+4      	; 0xc2 <__vector_4+0x46>
+  be:	88 0f       	add	r24, r24
+  c0:	99 1f       	adc	r25, r25
+  c2:	0a 94       	dec	r0
+  c4:	e2 f7       	brpl	.-8      	; 0xbe <__vector_4+0x42>
+  c6:	84 2b       	or	r24, r20
+  c8:	8c 93       	st	X, r24
+	currentDigit++;
+  ca:	80 91 60 00 	lds	r24, 0x0060
+  ce:	8f 5f       	subi	r24, 0xFF	; 255
+  d0:	80 93 60 00 	sts	0x0060, r24
+	if (currentDigit > 5)
+  d4:	80 91 60 00 	lds	r24, 0x0060
+  d8:	86 30       	cpi	r24, 0x06	; 6
+  da:	10 f0       	brcs	.+4      	; 0xe0 <__vector_4+0x64>
+		currentDigit = 0;
+  dc:	10 92 60 00 	sts	0x0060, r1
+}
+  e0:	cf 91       	pop	r28
+  e2:	df 91       	pop	r29
+  e4:	ff 91       	pop	r31
+  e6:	ef 91       	pop	r30
+  e8:	bf 91       	pop	r27
+  ea:	af 91       	pop	r26
+  ec:	9f 91       	pop	r25
+  ee:	8f 91       	pop	r24
+  f0:	4f 91       	pop	r20
+  f2:	3f 91       	pop	r19
+  f4:	2f 91       	pop	r18
+  f6:	0f 90       	pop	r0
+  f8:	0f be       	out	0x3f, r0	; 63
+  fa:	0f 90       	pop	r0
+  fc:	1f 90       	pop	r1
+  fe:	18 95       	reti
+
+00000100 <__vector_7>:
+
+ISR(TIMER1_COMPA_vect) {
+ 100:	1f 92       	push	r1
+ 102:	0f 92       	push	r0
+ 104:	0f b6       	in	r0, 0x3f	; 63
+ 106:	0f 92       	push	r0
+ 108:	11 24       	eor	r1, r1
+ 10a:	8f 93       	push	r24
+ 10c:	9f 93       	push	r25
+ 10e:	af 93       	push	r26
+ 110:	bf 93       	push	r27
+ 112:	ef 93       	push	r30
+ 114:	ff 93       	push	r31
+ 116:	df 93       	push	r29
+ 118:	cf 93       	push	r28
+ 11a:	cd b7       	in	r28, 0x3d	; 61
+ 11c:	de b7       	in	r29, 0x3e	; 62
+	PORTB ^= (1 << PB0);
+ 11e:	a8 e3       	ldi	r26, 0x38	; 56
+ 120:	b0 e0       	ldi	r27, 0x00	; 0
+ 122:	e8 e3       	ldi	r30, 0x38	; 56
+ 124:	f0 e0       	ldi	r31, 0x00	; 0
+ 126:	90 81       	ld	r25, Z
+ 128:	81 e0       	ldi	r24, 0x01	; 1
+ 12a:	89 27       	eor	r24, r25
+ 12c:	8c 93       	st	X, r24
+}
+ 12e:	cf 91       	pop	r28
+ 130:	df 91       	pop	r29
+ 132:	ff 91       	pop	r31
+ 134:	ef 91       	pop	r30
+ 136:	bf 91       	pop	r27
+ 138:	af 91       	pop	r26
+ 13a:	9f 91       	pop	r25
+ 13c:	8f 91       	pop	r24
+ 13e:	0f 90       	pop	r0
+ 140:	0f be       	out	0x3f, r0	; 63
+ 142:	0f 90       	pop	r0
+ 144:	1f 90       	pop	r1
+ 146:	18 95       	reti
+
+00000148 <main>:
+int main(void) {
+ 148:	df 93       	push	r29
+ 14a:	cf 93       	push	r28
+ 14c:	cd b7       	in	r28, 0x3d	; 61
+ 14e:	de b7       	in	r29, 0x3e	; 62
+	//Init the Output ports
+	DDRA |= 0x3F;
+ 150:	aa e3       	ldi	r26, 0x3A	; 58
+ 152:	b0 e0       	ldi	r27, 0x00	; 0
+ 154:	ea e3       	ldi	r30, 0x3A	; 58
+ 156:	f0 e0       	ldi	r31, 0x00	; 0
+ 158:	80 81       	ld	r24, Z
+ 15a:	8f 63       	ori	r24, 0x3F	; 63
+ 15c:	8c 93       	st	X, r24
+	PORTA &= ~(0x3F);
+ 15e:	ab e3       	ldi	r26, 0x3B	; 59
+ 160:	b0 e0       	ldi	r27, 0x00	; 0
+ 162:	eb e3       	ldi	r30, 0x3B	; 59
+ 164:	f0 e0       	ldi	r31, 0x00	; 0
+ 166:	80 81       	ld	r24, Z
+ 168:	80 7c       	andi	r24, 0xC0	; 192
+ 16a:	8c 93       	st	X, r24
+	DDRC |= 0x0F;
+ 16c:	a4 e3       	ldi	r26, 0x34	; 52
+ 16e:	b0 e0       	ldi	r27, 0x00	; 0
+ 170:	e4 e3       	ldi	r30, 0x34	; 52
+ 172:	f0 e0       	ldi	r31, 0x00	; 0
+ 174:	80 81       	ld	r24, Z
+ 176:	8f 60       	ori	r24, 0x0F	; 15
+ 178:	8c 93       	st	X, r24
+	PORTC &= ~(0x0F);
+ 17a:	a5 e3       	ldi	r26, 0x35	; 53
+ 17c:	b0 e0       	ldi	r27, 0x00	; 0
+ 17e:	e5 e3       	ldi	r30, 0x35	; 53
+ 180:	f0 e0       	ldi	r31, 0x00	; 0
+ 182:	80 81       	ld	r24, Z
+ 184:	80 7f       	andi	r24, 0xF0	; 240
+ 186:	8c 93       	st	X, r24
+	DDRB |= (1 << PB0);
+ 188:	a7 e3       	ldi	r26, 0x37	; 55
+ 18a:	b0 e0       	ldi	r27, 0x00	; 0
+ 18c:	e7 e3       	ldi	r30, 0x37	; 55
+ 18e:	f0 e0       	ldi	r31, 0x00	; 0
+ 190:	80 81       	ld	r24, Z
+ 192:	81 60       	ori	r24, 0x01	; 1
+ 194:	8c 93       	st	X, r24
+	PORTB &= ~(1 << PB0);
+ 196:	a8 e3       	ldi	r26, 0x38	; 56
+ 198:	b0 e0       	ldi	r27, 0x00	; 0
+ 19a:	e8 e3       	ldi	r30, 0x38	; 56
+ 19c:	f0 e0       	ldi	r31, 0x00	; 0
+ 19e:	80 81       	ld	r24, Z
+ 1a0:	8e 7f       	andi	r24, 0xFE	; 254
+ 1a2:	8c 93       	st	X, r24
+	// init the timer2
+	TCCR2 = (1 << FOC2) | (1 << WGM21) | (1 << CS21);
+ 1a4:	e5 e4       	ldi	r30, 0x45	; 69
+ 1a6:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a8:	8a e8       	ldi	r24, 0x8A	; 138
+ 1aa:	80 83       	st	Z, r24
+	TCNT2 = 0;
+ 1ac:	e4 e4       	ldi	r30, 0x44	; 68
+ 1ae:	f0 e0       	ldi	r31, 0x00	; 0
+ 1b0:	10 82       	st	Z, r1
+	TIMSK |= (1 << OCIE2);
+ 1b2:	a9 e5       	ldi	r26, 0x59	; 89
+ 1b4:	b0 e0       	ldi	r27, 0x00	; 0
+ 1b6:	e9 e5       	ldi	r30, 0x59	; 89
+ 1b8:	f0 e0       	ldi	r31, 0x00	; 0
+ 1ba:	80 81       	ld	r24, Z
+ 1bc:	80 68       	ori	r24, 0x80	; 128
+ 1be:	8c 93       	st	X, r24
+	OCR2 = 250;
+ 1c0:	e3 e4       	ldi	r30, 0x43	; 67
+ 1c2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c4:	8a ef       	ldi	r24, 0xFA	; 250
+ 1c6:	80 83       	st	Z, r24
+	SREG |= 1 << 7;
+ 1c8:	af e5       	ldi	r26, 0x5F	; 95
+ 1ca:	b0 e0       	ldi	r27, 0x00	; 0
+ 1cc:	ef e5       	ldi	r30, 0x5F	; 95
+ 1ce:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d0:	80 81       	ld	r24, Z
+ 1d2:	80 68       	ori	r24, 0x80	; 128
+ 1d4:	8c 93       	st	X, r24
+	// init timer1
+	TCNT1 = 0; // initial value of timer register
+ 1d6:	ec e4       	ldi	r30, 0x4C	; 76
+ 1d8:	f0 e0       	ldi	r31, 0x00	; 0
+ 1da:	11 82       	std	Z+1, r1	; 0x01
+ 1dc:	10 82       	st	Z, r1
+	OCR1A = 15625;
+ 1de:	ea e4       	ldi	r30, 0x4A	; 74
+ 1e0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1e2:	89 e0       	ldi	r24, 0x09	; 9
+ 1e4:	9d e3       	ldi	r25, 0x3D	; 61
+ 1e6:	91 83       	std	Z+1, r25	; 0x01
+ 1e8:	80 83       	st	Z, r24
+	TIMSK |= (1 << OCIE1A); //enable compare interrupt
+ 1ea:	a9 e5       	ldi	r26, 0x59	; 89
+ 1ec:	b0 e0       	ldi	r27, 0x00	; 0
+ 1ee:	e9 e5       	ldi	r30, 0x59	; 89
+ 1f0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1f2:	80 81       	ld	r24, Z
+ 1f4:	80 61       	ori	r24, 0x10	; 16
+ 1f6:	8c 93       	st	X, r24
+	TCCR1A |= (1<<FOC1A);  //force compare match
+ 1f8:	af e4       	ldi	r26, 0x4F	; 79
+ 1fa:	b0 e0       	ldi	r27, 0x00	; 0
+ 1fc:	ef e4       	ldi	r30, 0x4F	; 79
+ 1fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 200:	80 81       	ld	r24, Z
+ 202:	88 60       	ori	r24, 0x08	; 8
+ 204:	8c 93       	st	X, r24
+	TCCR1B |= (1 << WGM12); //CTC (clear timer on compare mode)(WGM12 =1, WGM10,11,13 =0)
+ 206:	ae e4       	ldi	r26, 0x4E	; 78
+ 208:	b0 e0       	ldi	r27, 0x00	; 0
+ 20a:	ee e4       	ldi	r30, 0x4E	; 78
+ 20c:	f0 e0       	ldi	r31, 0x00	; 0
+ 20e:	80 81       	ld	r24, Z
+ 210:	88 60       	ori	r24, 0x08	; 8
+ 212:	8c 93       	st	X, r24
+	TCCR1B |= (1 << CS11)|(1<<CS10);   //F/CPU = 1024 CS12=1 CS11=0 CS10=1
+ 214:	ae e4       	ldi	r26, 0x4E	; 78
+ 216:	b0 e0       	ldi	r27, 0x00	; 0
+ 218:	ee e4       	ldi	r30, 0x4E	; 78
+ 21a:	f0 e0       	ldi	r31, 0x00	; 0
+ 21c:	80 81       	ld	r24, Z
+ 21e:	83 60       	ori	r24, 0x03	; 3
+ 220:	8c 93       	st	X, r24
+ 222:	ff cf       	rjmp	.-2      	; 0x222 <main+0xda>
+
+00000224 <_exit>:
+ 224:	f8 94       	cli
+
+00000226 <__stop_program>:
+ 226:	ff cf       	rjmp	.-2      	; 0x226 <__stop_program>
