@@ -124,3 +124,73 @@ java.net.UnknownHostException: github.com
 
 !ENTRY org.eclipse.cdt.core 1 0 2023-09-13 11:48:00.765
 !MESSAGE Indexed 'MiniPorject2' (1 sources, 10 headers) in 0.081 sec: 36 declarations; 488 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+!SESSION 2023-09-13 18:12:15.475 -----------------------------------------------
+eclipse.buildId=4.28.0.20230608-1200
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2023-09-13 18:12:29.405
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.wakatime.eclipse.plugin 1 0 2023-09-13 18:12:49.777
+!MESSAGE Upgrading wakatime-cli ...
+
+!ENTRY com.wakatime.eclipse.plugin 1 0 2023-09-13 18:13:00.548
+!MESSAGE Finished upgrading wakatime-cli.
+!SESSION 2023-09-13 23:37:01.903 -----------------------------------------------
+eclipse.buildId=4.28.0.20230608-1200
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY com.wakatime.eclipse.plugin 1 0 2023-09-13 23:37:32.329
+!MESSAGE wakatime-cli is up to date.
+!SESSION 2023-09-14 12:18:02.242 -----------------------------------------------
+eclipse.buildId=4.28.0.20230608-1200
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY com.wakatime.eclipse.plugin 1 0 2023-09-14 12:19:00.918
+!MESSAGE wakatime-cli is up to date.
+
+!ENTRY org.eclipse.cdt.ui 4 0 2023-09-14 13:27:36.628
+!MESSAGE Error in CDT UI during reconcile
+!STACK 1
+C Model Exception: C Model Status [Element MiniProject2.c does not exist.]
+	at org.eclipse.cdt.internal.core.model.CElement.newNotPresentException(CElement.java:485)
+	at org.eclipse.cdt.internal.core.model.TranslationUnit.makeConsistent(TranslationUnit.java:583)
+	at org.eclipse.cdt.internal.core.model.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:65)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.execute(CModelOperation.java:346)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.run(CModelOperation.java:613)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:641)
+	at org.eclipse.cdt.internal.core.model.WorkingCopy.reconcile(WorkingCopy.java:365)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:79)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:64)
+	at org.eclipse.cdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:89)
+	at org.eclipse.cdt.internal.ui.text.CCompositeReconcilingStrategy.reconcile(CCompositeReconcilingStrategy.java:90)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:78)
+	at org.eclipse.cdt.internal.ui.text.CReconciler.process(CReconciler.java:346)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:207)
+!SUBENTRY 1 org.eclipse.cdt.core 4 969 2023-09-14 13:27:36.629
+!MESSAGE Element MiniProject2.c does not exist.
+!SESSION 2023-09-14 22:18:53.507 -----------------------------------------------
+eclipse.buildId=4.28.0.20230608-1200
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2023-09-14 22:43:12.453
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.wakatime.eclipse.plugin 1 0 2023-09-14 22:44:13.908
+!MESSAGE wakatime-cli is up to date.

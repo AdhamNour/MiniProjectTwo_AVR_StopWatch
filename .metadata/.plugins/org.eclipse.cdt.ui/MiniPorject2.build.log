@@ -1,4 +1,4 @@
-15:11:46 **** Incremental Build of configuration Debug for project MiniPorject2 ****
+23:40:18 **** Incremental Build of configuration Debug for project MiniPorject2 ****
 make all 
 Building file: ../MiniProject2.c
 Invoking: AVR Compiler
@@ -20,15 +20,15 @@ AVR Memory Usage
 ----------------
 Device: atmega32
 
-Program:     552 bytes (1.7% Full)
+Program:    1448 bytes (4.4% Full)
 (.text + .data + .bootloader)
 
-Data:          1 bytes (0.0% Full)
+Data:          4 bytes (0.2% Full)
 (.data + .bss + .noinit)
 
 
 Finished building: sizedummy
  
 
-15:11:46 Build Finished. 0 errors, 0 warnings. (took 528ms)
+23:40:19 Build Finished. 0 errors, 0 warnings. (took 1s.57ms)
 
