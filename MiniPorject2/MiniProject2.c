@@ -7,6 +7,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 unsigned char currentDigit = 0;
 
@@ -16,6 +17,9 @@ struct Time {
 	unsigned char hourCounter;
 
 } t;
+unsigned char initSeconds = 0;
+unsigned char initMinutes = 0;
+unsigned char initHours = 0;
 
 void increment(unsigned char *x) {
 	if (((*x) & 0x0F) == 9) {
@@ -33,6 +37,23 @@ void increment(unsigned char *x) {
 	}
 }
 
+
+void decrement(unsigned char *x){
+	if (((*x) & 0x0F) == 0) {
+			(*x) = ((*x) & 0xF0)|9;
+
+			if ((((*x) & 0xF0) >> 4) == 0) {
+				(*x) = ((*x) & 0x0F);
+			} else {
+				(*x) = ((*x) & 0x0F) | ((((((*x) & 0xF0) >> 4) - 1) << 4) & 0xF0);
+
+			}
+		} else {
+			(*x) = ((*x) & 0xF0) | (((*x) - 1) & 0x0F);
+
+		}
+}
+
 void incrementTime() {
 	if (t.secondCounter == 0x59) {
 		t.secondCounter = 0;
@@ -45,6 +66,22 @@ void incrementTime() {
 		}
 	} else {
 		increment(&(t.secondCounter));
+	}
+
+}
+
+void decrementTime() {
+	if (t.secondCounter == 0x0) {
+		t.secondCounter = 0x59;
+		if (t.minuteCounter == 0x00) {
+			t.minuteCounter = 0x59;
+			decrement(&(t.hourCounter));
+
+		} else {
+			decrement(&(t.minuteCounter));
+		}
+	} else {
+		decrement(&(t.secondCounter));
 	}
 
 }
@@ -81,7 +118,14 @@ ISR(TIMER2_COMP_vect) {
 }
 
 ISR(TIMER1_COMPA_vect) {
-	incrementTime();
+	if(PORTD & (1 << PD1)){
+		decrementTime();
+
+	}
+	else{
+		incrementTime();
+
+	}
 }
 ISR(INT0_vect) {
 //	TCCR1B &=~(1<<CS11|1<<CS10);
@@ -97,9 +141,9 @@ ISR(INT2_vect) {
 	PORTB ^= (1 << PB0);
 }
 int main(void) {
-	t.hourCounter = 0;
-	t.minuteCounter = 0;
-	t.secondCounter = 0;
+	t.hourCounter = initHours;
+	t.minuteCounter = initMinutes;
+	t.secondCounter = initSeconds;
 	//Init the Output ports
 	DDRA |= 0x3F;
 	PORTA &= ~(0x3F);
@@ -142,7 +186,56 @@ int main(void) {
 	MCUCSR &= ~(1 << ISC2);
 	GICR |= (1 << INT2);
 
-	while (1)
-		;
+	DDRD |= (1 << PD0) | (1 << PD1);
+	PORTD |= (1 << PD0);
+	PORTD &= ~(1 << PD1);
+	DDRD &= ~(1 << PD4);
+
+	DDRB &= ~((1 << PB3) | (1 << PB4) | (1 << PB5));
+
+	while (1) {
+		if (PIND & (1 << PD4)) {
+			_delay_ms(30);
+			if (PIND & (1 << PD4)) {
+				PORTD ^= (1 << PD0) | (1 << PD1);
+				TCCR1B &= ~(1 << CS12 | 1 << CS11 | 1 << CS10);
+
+				while (PIND & (1 << PD4))
+					;
+			}
+		}
+		if (PORTD & (1 << PD1)) {
+
+			if (PINB & (1 << PB3)) {
+				_delay_ms(30);
+				if (PINB & (1 << PB3)) {
+					increment(&(t.secondCounter));
+					while (PINB & (1 << PB3))
+						;
+				}
+			}
+			if (PINB & (1 << PB4)) {
+				_delay_ms(30);
+				if (PINB & (1 << PB4)) {
+					increment(&(t.minuteCounter));
+					while (PINB & (1 << PB4))
+						;
+				}
+			}
+			if (PINB & (1 << PB5)) {
+				_delay_ms(30);
+				if (PINB & (1 << PB5)) {
+					increment(&(t.hourCounter));
+					while (PINB & (1 << PB5))
+						;
+				}
+			}
+			if(t.secondCounter==0 && t.minuteCounter==0 && t.hourCounter==0){
+				TCCR1B &= ~(1 << CS12 | 1 << CS11 | 1 << CS10);
+
+			}
+		}
+
+	}
 
 }
